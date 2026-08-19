@@ -73,3 +73,17 @@ git commit
 
 Local Repository → GitHub
 git push
+
+
+
+GitHub Push Protection
+        ↓
+Secret detected
+        ↓
+Remove secret from commit history
+        ↓
+git reset origin/master
+        ↓
+new clean commit
+        ↓
+    
