@@ -2,20 +2,24 @@
 
 ## Centralized (SVN)
 
+```
           [Server]
              |
     +--------+--------+
     |        |        |
   [Dev 1]  [Dev 2]  [Dev 3]
+```
 
 
 ## Distributed (Git)
 
+```
           [Server]
          /        \
     [Dev 1]      [Dev 2]
        |            |
     [Local]      [Local]
+```
 
 
 | Theory | Centralized (SVN) | Distributed (Git) |
