@@ -60,3 +60,16 @@ git push
 
 Username → GitHub username
 Password → GitHub Personal Access Token (PAT)
+
+
+GitHub → Local
+git pull
+
+Local → Staging
+git add .
+
+Staging → Local Repository
+git commit
+
+Local Repository → GitHub
+git push
