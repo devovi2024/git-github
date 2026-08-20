@@ -1,390 +1,326 @@
-
-                  ADVANCED GIT WORKFLOWS
-                  Complete Learning & Practice Repository
-
-This is a comprehensive guide for learning and practicing advanced Git concepts
-with hands-on examples and real-world scenarios.
-
-TABLE OF CONTENTS
-
-1.  Coverage
-2.  Required Software
-3.  Project Structure
-4.  Quick Start
-5.  Branching Strategy
-6.  Cherry-Pick Operations
-7.  Single-File Operations
-8.  Merge vs Rebase
-9.  Conflict Resolution Mastery
-10. Team Collaboration Workflow
-11. .gitignore File
-12. Useful Git Commands
-13. Common Issues & Solutions
-14. Practice Challenges
-15. References & Resources
-
-1. COVERAGE
-
-What you will learn in this repository:
-
-    [X] Git Basics & Foundation
-    [X] Feature Branching Strategies
-    [X] Merge vs Rebase: Deep Dive
-    [X] Cherry-Picking & Single-File Operations
-    [X] Conflict Resolution Mastery
-    [X] Team Collaboration Best Practices
-    [X] Advanced Workflow Patterns
-    [X] Tooling & Automation
-    [X] Troubleshooting & Common Issues
-
-2. REQUIRED SOFTWARE
-
-    +------------------+---------------+
-    | Tool             | Version       |
-    +------------------+---------------+
-    | Git              | 2.30+         |
-    | VS Code          | Latest        |
-    | Terminal / PowerShell | Any    |
-    +------------------+---------------+
-
-3. PROJECT STRUCTURE
-
-    my-test/
-    |-- README.md                  # This file
-    |-- CHECKLIST.md               # Learning checklist
-    |-- CONFLICT_NOTES.txt         # Conflict resolution notes
-    |-- file.txt                   # Practice file
-    |-- assignment_1_rahul.py      # Assignment example
-    |-- assignment_1_sita.py       # Assignment example
-    |-- conflict.txt               # Conflict practice file
-    |-- .gitignore                 # Ignore file
-
-4. QUICK START
-
-Step 1: Clone the repository
-------------------------------------------------------------
-    git clone https://github.com/your-username/my-test.git
-    cd my-test
-
-Step 2: Configure your Git
-------------------------------------------------------------
-    git config --global user.name "Your Name"
-    git config --global user.email "your.email@example.com"
-
-Step 3: Create your first branch
-------------------------------------------------------------
-    git checkout -b feature/your-feature
-
-5. BRANCHING STRATEGY
-
-This repository uses the following branch model:
-
-    main (Production)
-    |
-    |-- develop (Development)
-    |   |
-    |   |-- feature/student-rahul-assignment1
-    |   |-- feature/student-sita-assignment1
-    |   |-- feature/teacher-review-assignment1
-    |
-    |-- hotfix/urgent-bug-fix
-
-Branch Naming Convention:
-
-    +------------------+---------------------------+---------------------------+
-    | Type             | Format                    | Example                   |
-    +------------------+---------------------------+---------------------------+
-    | Feature          | feature/<name>            | feature/login-page        |
-    | Bugfix           | bugfix/<issue-id>         | bugfix/issue-123          |
-    | Hotfix           | hotfix/<description>      | hotfix/security-patch     |
-    | Assignment       | feature/student-<name>-<id>| feature/student-rahul-001 |
-    +------------------+---------------------------+---------------------------+
-
-6. CHERRY-PICK OPERATIONS
-
-Bring a specific commit from another branch
-------------------------------------------------------------
-    git checkout main
-    git cherry-pick <commit-hash>
-
-Bring multiple commits at once
-------------------------------------------------------------
-    git cherry-pick hash1 hash2 hash3
-
-Bring changes without committing
-------------------------------------------------------------
-    git cherry-pick -n <commit-hash>
-
-Abort cherry-pick
-------------------------------------------------------------
-    git cherry-pick --abort
-
-Continue cherry-pick after resolving conflict
-------------------------------------------------------------
-    git add <file>
-    git cherry-pick --continue
-
-7. SINGLE-FILE OPERATIONS
-
-Bring a file from another branch
-------------------------------------------------------------
-    git checkout <branch-name> -- <filename>
-
-Bring a file from an old commit
-------------------------------------------------------------
-    git checkout <commit-hash> -- <filename>
-
-Unstage a file
-------------------------------------------------------------
-    git reset HEAD <filename>
-
-Discard file changes
-------------------------------------------------------------
-    git checkout -- <filename>
-
-Restore a file (Git 2.23+)
-------------------------------------------------------------
-    git restore <filename>
-    git restore --staged <filename>
-
-8. MERGE VS REBASE
-
-Merge (Non-linear history)
-------------------------------------------------------------
-    git checkout main
-    git merge feature-branch
-
-Rebase (Linear history)
-------------------------------------------------------------
-    git checkout feature-branch
-    git rebase main
-
-Resolve rebase conflict
-------------------------------------------------------------
-    # Edit the file
-    git add <file>
-    git rebase --continue
-
-Abort rebase
-------------------------------------------------------------
-    git rebase --abort
-
-9. CONFLICT RESOLUTION MASTERY
-
-Creating and Resolving Merge Conflict:
-
-Step 1: Create conflict
-------------------------------------------------------------
-    git checkout main
-    echo "Line 1" > conflict.txt
-    echo "Line 2" >> conflict.txt
-    echo "Line 3" >> conflict.txt
-    git add conflict.txt
-    git commit -m "add: conflict.txt in master"
-
-    git checkout -b feature-conflict
-    echo "Line 1" > conflict.txt
-    echo "Feature Branch Line" >> conflict.txt
-    echo "Line 3" >> conflict.txt
-    git add conflict.txt
-    git commit -m "update: changed middle line in feature branch"
-
-    git checkout master
-    echo "Line 1" > conflict.txt
-    echo "Master Branch Line" >> conflict.txt
-    echo "Line 3" >> conflict.txt
-    git add conflict.txt
-    git commit -m "update: changed middle line in master"
-
-    git merge feature-conflict  # Conflict will occur
-
-Step 2: View conflict file
-------------------------------------------------------------
-    <<<<<<< HEAD
-    Master Branch Line
-    =======
-    Feature Branch Line
-    >>>>>>> feature-conflict
-
-Step 3: Resolve
-------------------------------------------------------------
-    # Edit the file (remove markers, keep desired changes)
-    git add conflict.txt
-    git commit -m "merge: resolved conflict in conflict.txt"
-
-Conflict Resolution Commands:
-
-    +----------------------+------------------------------------------+
-    | Command              | Purpose                                  |
-    +----------------------+------------------------------------------+
-    | git status           | View conflicting files                   |
-    | git diff             | View differences                         |
-    | git mergetool        | Use GUI tool                             |
-    | git add <file>       | Stage resolved file                      |
-    | git merge --abort    | Abort merge                              |
-    | git rebase --abort   | Abort rebase                             |
-    | git cherry-pick --abort | Abort cherry-pick                    |
-    | git checkout --ours <file> | Accept current version             |
-    | git checkout --theirs <file> | Accept incoming version             |
-    +----------------------+------------------------------------------+
-
-10. TEAM COLLABORATION WORKFLOW
-
-Student Assignment Submission
-------------------------------------------------------------
-    git checkout -b feature/student-rahul-assignment1
-    echo "My Assignment Solution" > assignment_1_rahul.py
-    git add assignment_1_rahul.py
-    git commit -m "feat: assignment 1 submitted by Rahul"
-    git push origin feature/student-rahul-assignment1
-
-Teacher Review
-------------------------------------------------------------
-    git checkout -b feature/teacher-review
-    git checkout feature/student-rahul-assignment1 -- assignment_1_rahul.py
-    echo "# Review: Good work! Need minor fixes" >> assignment_1_rahul.py
-    git add assignment_1_rahul.py
-    git commit -m "review: added feedback for Rahul"
-    git checkout main
-    git cherry-pick <review-commit-hash>
-
-Collecting Multiple Students' Work
-------------------------------------------------------------
-    git checkout main
-    git checkout feature/student-rahul -- assignment_1_rahul.py
-    git checkout feature/student-sita -- assignment_1_sita.py
-    git checkout feature/student-ravi -- assignment_1_ravi.py
-    git add .
-    git commit -m "feat: collected all assignments"
-
-11. .GITIGNORE FILE
-
-    # Dependencies
-    node_modules/
-    vendor/
-    __pycache__/
-
-    # Log files
-    *.log
-    *.tmp
-
-    # Environment files
-    .env
-    *.env
-
-    # OS files
-    .DS_Store
-    Thumbs.db
-
-    # IDE files
-    .vscode/
-    .idea/
-
-12. USEFUL GIT COMMANDS SUMMARY
-
-    +----------------------------+------------------------------------------+
-    | Command                    | Purpose                                  |
-    +----------------------------+------------------------------------------+
-    | git init                   | Initialize new repository                |
-    | git clone <url>            | Clone repository                         |
-    | git add <file>             | Stage file                               |
-    | git commit -m "msg"        | Commit changes                           |
-    | git status                 | Check status                             |
-    | git log --oneline --graph --all | View history                       |
-    | git branch                 | List branches                            |
-    | git checkout -b <branch>   | Create and switch to new branch          |
-    | git checkout <branch>      | Switch to branch                         |
-    | git merge <branch>         | Merge branch                             |
-    | git rebase <branch>        | Rebase branch                            |
-    | git cherry-pick <hash>     | Pick specific commit                     |
-    | git reset HEAD~1           | Undo last commit                         |
-    | git revert <hash>          | Revert commit changes                    |
-    | git stash                  | Stash changes temporarily                |
-    | git stash pop              | Apply stashed changes                    |
-    | git fetch                  | Fetch remote updates                     |
-    | git pull                   | Pull remote updates                      |
-    | git branch -d <branch>     | Delete branch                            |
-    | git branch -a              | List all branches (local + remote)       |
-    | git log --merge            | Show commits causing conflicts           |
-    | git diff --base <file>     | Compare with base version                |
-    | git diff --ours <file>     | Compare with current version             |
-    | git diff --theirs <file>   | Compare with incoming version            |
-    +----------------------------+------------------------------------------+
-
-13. COMMON ISSUES & SOLUTIONS
-
-    +-------------------------------------+----------------------------------+
-    | Issue                               | Solution                         |
-    +-------------------------------------+----------------------------------+
-    | fatal: not a git repository        | Run git init or clone correct    |
-    |                                     | folder                           |
-    | error: pathspec 'main' did not     | Check branch name (main vs       |
-    | match                               | master)                          |
-    | CONFLICT (content)                 | Edit conflict file, git add,     |
-    |                                     | git commit                       |
-    | Your branch is ahead of origin     | Run git push                     |
-    | Permission denied (publickey)      | Set up SSH key or use HTTPS      |
-    | fatal: refusing to merge           | Clean working directory          |
-    | You have not concluded your merge  | Use merge --abort or --continue  |
-    | error: cannot apply commit         | Resolve or abort cherry-pick     |
-    +-------------------------------------+----------------------------------+
-
-14. PRACTICE CHALLENGES
-
-Challenge 1: Cherry-Pick
-------------------------------------------------------------
-    1. Create a feature branch with 3 commits
-    2. Cherry-pick only the second commit to main
-
-Challenge 2: Single-File Operation
-------------------------------------------------------------
-    1. Create a new file in feature branch
-    2. Bring only that file to main
-
-Challenge 3: Conflict Resolution
-------------------------------------------------------------
-    1. Change the same line in same file on two branches
-    2. Merge and resolve the conflict
-
-Challenge 4: Team Collaboration
-------------------------------------------------------------
-    1. Create 3 student branches
-    2. Collect all assignments into main
-
-Challenge 5: Rebase Conflict
-------------------------------------------------------------
-    1. Create two branches with conflicting changes
-    2. Rebase and resolve conflicts
-
-Challenge 6: Cherry-Pick Conflict
-------------------------------------------------------------
-    1. Create conflicting commits
-    2. Cherry-pick and resolve conflicts
-
-15. REFERENCES & RESOURCES
-
-    Git Official Documentation
-    https://git-scm.com/doc
-
-    Pro Git Book
-    https://git-scm.com/book/en/v2
-
-    GitHub Flow
-    https://guides.github.com/introduction/flow/
-
-    Atlassian Git Tutorial
-    https://www.atlassian.com/git/tutorials
-
-    Git Cheat Sheet
-    https://training.github.com/downloads/github-git-cheat-sheet/
-
-16. CONTRIBUTORS
-
-    Your Name - Initial work
-
-17. LICENSE
-
-    This project is created for educational purposes. You can use it for
-    learning and practice.
-
-                             HAPPY CODING!
+Here is a complete, single Markdown file for **Section 9: Conflict Resolution Mastery**. Save it as `conflict-resolution.md` (or `conflictresoulation.md` if you prefer).
+
+---
+
+```markdown
+# Conflict Resolution Mastery - Complete Guide
+This guide covers everything you need to know about resolving conflicts in Git – including merge, rebase, and cherry-pick conflicts with practical examples.
+
+---
+
+## Table of Contents
+1. [What is a Conflict?](#1-what-is-a-conflict)
+2. [Conflict Markers](#2-conflict-markers)
+3. [Merge Conflict](#3-merge-conflict)
+4. [Rebase Conflict](#4-rebase-conflict)
+5. [Cherry-Pick Conflict](#5-cherry-pick-conflict)
+6. [Conflict Resolution Commands](#6-conflict-resolution-commands)
+7. [Best Practices](#7-best-practices)
+8. [Practice Challenges](#8-practice-challenges)
+9. [Quick Reference Cheat Sheet](#9-quick-reference-cheat-sheet)
+
+---
+
+## 1. What is a Conflict?
+
+A **conflict** occurs when two different branches have made changes to the **same line** of the **same file**, and Git cannot automatically decide which change to keep. Git then asks the user to manually resolve the conflict.
+**Example:**
+- **Master branch** – `file.txt` line 5 says: `"Hello"`
+- **Feature branch** – `file.txt` line 5 says: `"Hola"`
+- Git says: *"I don't know which one to keep – you decide!"*
+
+---
+
+## 2. Conflict Markers
+When a conflict occurs, Git inserts special markers into the file to show the conflicting sections:
+
+```text
+<<<<<<< HEAD
+[Changes from your current branch]
+=======
+[Changes from the branch you are merging/rebasing]
+>>>>>>> branch-name
+```
+
+**Marker meanings:**
+| Marker | Meaning |
+|--------|---------|
+| `<<<<<<< HEAD` | Start of your current branch's changes |
+| `=======` | Separator between the two versions |
+| `>>>>>>> branch-name` | End of the incoming branch's changes |
+
+---
+
+## 3. Merge Conflict
+
+### Creating a Merge Conflict
+
+```bash
+# 1. On master, create conflict.txt with three lines
+git checkout master
+echo "Line 1" > conflict.txt
+echo "Line 2" >> conflict.txt
+echo "Line 3" >> conflict.txt
+git add conflict.txt
+git commit -m "add: conflict.txt in master"
+
+# 2. Create and switch to a new feature branch
+git checkout -b feature-conflict
+
+# 3. Change the middle line in the feature branch
+echo "Line 1" > conflict.txt
+echo "Feature Branch Line" >> conflict.txt
+echo "Line 3" >> conflict.txt
+git add conflict.txt
+git commit -m "update: changed middle line in feature branch"
+
+# 4. Go back to master
+git checkout master
+
+# 5. Change the same line in master
+echo "Line 1" > conflict.txt
+echo "Master Branch Line" >> conflict.txt
+echo "Line 3" >> conflict.txt
+git add conflict.txt
+git commit -m "update: changed middle line in master"
+
+# 6. Merge the feature branch – CONFLICT occurs!
+git merge feature-conflict
+```
+
+**Output:**
+```text
+Auto-merging conflict.txt
+CONFLICT (content): Merge conflict in conflict.txt
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+### View the Conflict
+
+```bash
+cat conflict.txt
+```
+
+```text
+Line 1
+<<<<<<< HEAD
+Master Branch Line
+=======
+Feature Branch Line
+>>>>>>> feature-conflict
+Line 3
+```
+
+### Resolving a Merge Conflict
+
+**Option 1 – Keep the master version:**
+```text
+Line 1
+Master Branch Line
+Line 3
+```
+
+**Option 2 – Keep the feature version:**
+```text
+Line 1
+Feature Branch Line
+Line 3
+```
+
+**Option 3 – Keep both:**
+```text
+Line 1
+Master Branch Line
+Feature Branch Line
+Line 3
+```
+
+**After editing, complete the merge:**
+```bash
+git add conflict.txt
+git commit -m "merge: resolved conflict in conflict.txt"
+```
+
+---
+
+## 4. Rebase Conflict
+
+### Creating a Rebase Conflict
+
+```bash
+git checkout feature-conflict
+git rebase master
+```
+
+**Output:**
+```text
+First, rewinding head to replay your work on top of it...
+Applying: update: changed middle line in feature branch
+Using index info to reconstruct a base tree...
+M       conflict.txt
+Falling back to patching base and 3-way merge...
+Auto-merging conflict.txt
+CONFLICT (content): Merge conflict in conflict.txt
+error: Failed to merge in the changes.
+Patch failed at 0001 update: changed middle line in feature branch
+```
+
+### Resolving a Rebase Conflict
+
+```bash
+# 1. Edit the file manually (remove markers, keep desired content)
+# 2. Stage the resolved file
+git add conflict.txt
+
+# 3. Continue the rebase
+git rebase --continue
+
+# OR abort the rebase
+git rebase --abort
+```
+
+---
+
+## 5. Cherry-Pick Conflict
+
+### Creating a Cherry-Pick Conflict
+
+```bash
+git checkout master
+git cherry-pick <commit-hash>   # Use the hash of the conflicting commit
+```
+
+**Output:**
+```text
+error: could not apply <hash>... update: changed middle line in feature branch
+hint: after resolving the conflicts, mark the corrected paths
+hint: with 'git add <paths>' or 'git rm <paths>'
+hint: and commit the result with 'git commit'
+```
+
+### Resolving a Cherry-Pick Conflict
+
+```bash
+# 1. Edit the file manually
+# 2. Stage the resolved file
+git add conflict.txt
+
+# 3. Continue the cherry-pick
+git cherry-pick --continue
+
+# OR abort the cherry-pick
+git cherry-pick --abort
+```
+
+---
+
+## 6. Conflict Resolution Commands
+
+| Command | Purpose |
+|---------|---------|
+| `git status` | Show which files have conflicts |
+| `git diff` | Show the differences between versions |
+| `git mergetool` | Launch a GUI tool to help resolve conflicts |
+| `git add <file>` | Mark a file as resolved and stage it |
+| `git commit` | Finish a merge (after staging all resolved files) |
+| `git merge --abort` | Cancel the merge and go back to the previous state |
+| `git rebase --abort` | Cancel the rebase |
+| `git rebase --continue` | Continue rebase after resolving conflicts |
+| `git cherry-pick --abort` | Cancel the cherry-pick |
+| `git cherry-pick --continue` | Continue cherry-pick after resolving |
+| `git log --merge` | Show commits that caused the conflict |
+| `git diff --base <file>` | Compare with the base (common ancestor) version |
+| `git diff --ours <file>` | Compare with your current branch version |
+| `git diff --theirs <file>` | Compare with the incoming branch version |
+| `git checkout --ours <file>` | Accept your current version (discard theirs) |
+| `git checkout --theirs <file>` | Accept the incoming version (discard yours) |
+
+---
+
+## 7. Best Practices
+| Practice | Why? |
+|----------|------|
+| **Pull frequently** | Stay up to date with the main branch to reduce big conflicts. |
+| **Keep commits small** | Small, focused commits are easier to merge and rebase. |
+| **Communicate with your team** | Avoid working on the same files at the same time. |
+| **Keep feature branches short-lived** | The longer a branch lives, the more it diverges. |
+| **Use rebase locally** | For your own feature branches, rebase keeps history clean. |
+| **Never rebase shared branches** | Rebasing public branches rewrites history and breaks others' work. |
+| **Use `.gitattributes`** | Define merge strategies for specific file types (e.g., binary files). |
+| **Review code before merging** | Code reviews catch issues early. |
+| **Test after resolving** | Always run tests to ensure the merged code works correctly. |
+
+---
+
+## 8. Practice Challenges
+### Challenge 1 – Merge Conflict
+- Create two branches with conflicting changes on the same file.
+- Merge them and resolve the conflict using both a text editor and VS Code.
+### Challenge 2 – Rebase Conflict
+- Create conflicting changes on two branches.
+- Perform a rebase and resolve the conflict using `--continue` and `--abort`.
+### Challenge 3 – Cherry-Pick Conflict
+- Create conflicting commits and cherry-pick one of them.
+- Resolve the conflict and finish the cherry-pick.
+### Challenge 4 – Advanced Resolution
+- Create a conflict involving three branches.
+- Resolve it using `git mergetool` and also try `git checkout --ours` and `--theirs`.
+
+---
+
+## 9. Quick Reference Cheat Sheet
+
+```bash
+# Find conflicts
+git status
+
+# View difference details
+git diff
+
+# Resolve manually – edit the file, remove markers
+
+# Stage resolved file
+git add <file>
+
+# Finish the operation
+# Merge:     git commit -m "message"
+# Rebase:    git rebase --continue
+# Cherry:    git cherry-pick --continue
+
+# Abort if needed
+# Merge:     git merge --abort
+# Rebase:    git rebase --abort
+# Cherry:    git cherry-pick --abort
+
+# Accept one side completely
+git checkout --ours <file>    # keep your version
+git checkout --theirs <file>  # keep the other version
+
+# Use a GUI tool
+git mergetool
+
+# Show the base (common ancestor) version
+git config --global merge.conflictstyle diff3
+```
+
+---
+
+##  Key Takeaways
+1. **Conflict is normal** – don't panic.
+2. **Conflict markers show exactly what changed** in each branch.
+3. **Always test** after resolving conflicts.
+4. **Communicate** with your team about complex conflict resolutions.
+5. **Use GUI tools** if manual editing feels overwhelming.
+6. **Keep commits small** – that minimises the chance of conflicts.
+7. **Pull frequently** to stay up to date.
+8. **Never rebase public/shared branches** – it rewrites history.
+9. **Use merge for public branches, rebase for local branches** – best of both worlds.
+10. **Practice regularly** to become confident in resolving conflicts.
+
+---
+
+## References
+- [Git Official Documentation](https://git-scm.com/doc)
+- [Pro Git Book](https://git-scm.com/book/en/v2)
+- [GitHub Flow](https://guides.github.com/introduction/flow/)
+- [Atlassian Git Tutorial](https://www.atlassian.com/git/tutorials)
