@@ -1,12 +1,7 @@
-Here is a complete, single Markdown file for **Section 9: Conflict Resolution Mastery**. Save it as `conflict-resolution.md` (or `conflictresoulation.md` if you prefer).
+Here is a complete, single Markdown file for **Section 9: Conflict Resolution Mastery**. Save it as `conflict-resolution.md` (or `conflictresoulation.md` if  prefer).
 
----
-
-```markdown
 # Conflict Resolution Mastery - Complete Guide
 This guide covers everything you need to know about resolving conflicts in Git – including merge, rebase, and cherry-pick conflicts with practical examples.
-
----
 
 ## Table of Contents
 1. [What is a Conflict?](#1-what-is-a-conflict)
@@ -19,17 +14,19 @@ This guide covers everything you need to know about resolving conflicts in Git �
 8. [Practice Challenges](#8-practice-challenges)
 9. [Quick Reference Cheat Sheet](#9-quick-reference-cheat-sheet)
 
----
+
+
+
+
+
 
 ## 1. What is a Conflict?
-
 A **conflict** occurs when two different branches have made changes to the **same line** of the **same file**, and Git cannot automatically decide which change to keep. Git then asks the user to manually resolve the conflict.
 **Example:**
 - **Master branch** – `file.txt` line 5 says: `"Hello"`
 - **Feature branch** – `file.txt` line 5 says: `"Hola"`
 - Git says: *"I don't know which one to keep – you decide!"*
 
----
 
 ## 2. Conflict Markers
 When a conflict occurs, Git inserts special markers into the file to show the conflicting sections:
